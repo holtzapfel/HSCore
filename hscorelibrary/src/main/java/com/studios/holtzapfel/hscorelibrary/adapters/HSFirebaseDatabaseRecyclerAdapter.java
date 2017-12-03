@@ -22,9 +22,15 @@ public abstract class HSFirebaseDatabaseRecyclerAdapter<VH extends RecyclerView.
 
     private DatabaseReference mReference;
     private List<DataSnapshot> mSnapshots = new ArrayList<>();
+    boolean isInsertAtZero = false;
 
     public HSFirebaseDatabaseRecyclerAdapter(DatabaseReference reference){
         mReference = reference;
+    }
+
+    public HSFirebaseDatabaseRecyclerAdapter withInsertNewObjectsAtZero(boolean isInsertAtZero){
+        this.isInsertAtZero = isInsertAtZero;
+        return this;
     }
 
     public void startListening(){
@@ -55,8 +61,9 @@ public abstract class HSFirebaseDatabaseRecyclerAdapter<VH extends RecyclerView.
                 return;
             }
         }
-        mSnapshots.add(dataSnapshot);
-        notifyItemInserted(mSnapshots.size() - 1);
+        int x = onDetermineLocationToInsert();
+        mSnapshots.add(x, dataSnapshot);
+        notifyItemInserted(x);
         onDataChanged();
     }
 
@@ -104,5 +111,10 @@ public abstract class HSFirebaseDatabaseRecyclerAdapter<VH extends RecyclerView.
 
     public void onDataChanged(){
 
+    }
+
+    public int onDetermineLocationToInsert(){
+        if (isInsertAtZero) return 0;
+        return mSnapshots.size();
     }
 }
