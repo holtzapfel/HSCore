@@ -61,7 +61,7 @@ public abstract class HSFirebaseDatabaseRecyclerAdapter<VH extends RecyclerView.
                 return;
             }
         }
-        int x = onDetermineLocationToInsert();
+        int x = onDetermineLocationToInsert(dataSnapshot);
         mSnapshots.add(x, dataSnapshot);
         notifyItemInserted(x);
         onDataChanged();
@@ -113,7 +113,7 @@ public abstract class HSFirebaseDatabaseRecyclerAdapter<VH extends RecyclerView.
 
     }
 
-    public int onDetermineLocationToInsert(){
+    public int onDetermineLocationToInsert(DataSnapshot dataSnapshot){
         if (isInsertAtZero) return 0;
         return mSnapshots.size();
     }
