@@ -7,8 +7,10 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -21,11 +23,17 @@ public abstract class HSFirebaseDatabaseRecyclerAdapter<VH extends RecyclerView.
     private static final String TAG = "FirebaseDatabaseAdapter";
 
     private DatabaseReference mReference;
+    private Query mQuery;
+
     private List<DataSnapshot> mSnapshots = new ArrayList<>();
-    boolean isInsertAtZero = false;
+    private boolean isInsertAtZero = false;
 
     public HSFirebaseDatabaseRecyclerAdapter(DatabaseReference reference){
         mReference = reference;
+    }
+
+    public HSFirebaseDatabaseRecyclerAdapter(Query query){
+        mQuery = query;
     }
 
     public HSFirebaseDatabaseRecyclerAdapter withInsertNewObjectsAtZero(boolean isInsertAtZero){
@@ -37,11 +45,19 @@ public abstract class HSFirebaseDatabaseRecyclerAdapter<VH extends RecyclerView.
         if (mReference != null) {
             mReference.addChildEventListener(this);
         }
+
+        if (mQuery != null){
+            mQuery.addChildEventListener(this);
+        }
     }
 
     public void stopListening(){
         if (mReference != null){
             mReference.removeEventListener(this);
+        }
+
+        if (mQuery != null){
+            mQuery.removeEventListener(this);
         }
 
         mSnapshots.clear();
@@ -51,6 +67,14 @@ public abstract class HSFirebaseDatabaseRecyclerAdapter<VH extends RecyclerView.
     public void setReference(DatabaseReference reference){
         stopListening();
         mReference = reference;
+        mQuery = null;
+        startListening();
+    }
+
+    public void setQuery(Query query){
+        stopListening();
+        mReference = null;
+        mQuery = query;
         startListening();
     }
 
@@ -92,7 +116,13 @@ public abstract class HSFirebaseDatabaseRecyclerAdapter<VH extends RecyclerView.
 
     @Override
     public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-        onDataChanged();
+        onChildRemoved(dataSnapshot);
+        for (int x = 0; x < mSnapshots.size(); x++){
+            if (mSnapshots.get(x).getKey().equals(s)){
+                mSnapshots.add(x, dataSnapshot);
+                notifyItemInserted(x);
+            }
+        }
     }
 
     @Override
@@ -115,6 +145,7 @@ public abstract class HSFirebaseDatabaseRecyclerAdapter<VH extends RecyclerView.
 
     public int onDetermineLocationToInsert(DataSnapshot dataSnapshot){
         if (isInsertAtZero) return 0;
+
         return mSnapshots.size();
     }
 }

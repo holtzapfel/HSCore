@@ -36,7 +36,4 @@ dependencies {
     compile 'com.google.firebase:firebase-core:11.6.2'
     compile 'com.google.firebase:firebase-database:11.6.2'
     compile 'com.google.firebase:firebase-firestore:11.6.2'
-
-    // HOLTZAPFEL STUDIOS
-    compile 'com.github.holtzapfel:MenuMaker:v1.0.3'
 }
