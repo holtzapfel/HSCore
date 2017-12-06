@@ -88,7 +88,7 @@ public abstract class HSFirebaseDatabaseRecyclerAdapter<VH extends RecyclerView.
         int x = onDetermineLocationToInsert(dataSnapshot);
         mSnapshots.add(x, dataSnapshot);
         notifyItemInserted(x);
-        onDataChanged();
+        onDataChanged(dataSnapshot, s);
     }
 
     @Override
@@ -98,7 +98,7 @@ public abstract class HSFirebaseDatabaseRecyclerAdapter<VH extends RecyclerView.
                 mSnapshots.remove(x);
                 mSnapshots.add(x, dataSnapshot);
                 notifyItemChanged(x);
-                onDataChanged();
+                onDataChanged(dataSnapshot, s);
             }
         }
     }
@@ -109,20 +109,14 @@ public abstract class HSFirebaseDatabaseRecyclerAdapter<VH extends RecyclerView.
             if (mSnapshots.get(x).getKey().equals(dataSnapshot.getKey())){
                 mSnapshots.remove(x);
                 notifyItemRemoved(x);
-                onDataChanged();
+                onDataChanged(dataSnapshot, null);
             }
         }
     }
 
     @Override
     public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-        onChildRemoved(dataSnapshot);
-        for (int x = 0; x < mSnapshots.size(); x++){
-            if (mSnapshots.get(x).getKey().equals(s)){
-                mSnapshots.add(x, dataSnapshot);
-                notifyItemInserted(x);
-            }
-        }
+
     }
 
     @Override
@@ -139,7 +133,7 @@ public abstract class HSFirebaseDatabaseRecyclerAdapter<VH extends RecyclerView.
         return mSnapshots.get(index);
     }
 
-    public void onDataChanged(){
+    public void onDataChanged(DataSnapshot dataSnapshot, String s){
 
     }
 
@@ -147,5 +141,9 @@ public abstract class HSFirebaseDatabaseRecyclerAdapter<VH extends RecyclerView.
         if (isInsertAtZero) return 0;
 
         return mSnapshots.size();
+    }
+
+    public List<DataSnapshot> getSnapshots(){
+        return mSnapshots;
     }
 }
