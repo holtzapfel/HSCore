@@ -33,6 +33,7 @@ public class HSViewHolder {
         @Override
         public IConfigBuilder typeSimpleText() {
             layout = R.layout.hs_mod_simple_text;
+            type = TYPE_SIMPLE_TEXT;
             return this;
         }
 

@@ -12,10 +12,10 @@ public class HSVHSimpleText extends RecyclerView.ViewHolder {
 
     private TextView mTextSimple;
 
-    public HSVHSimpleText(@NonNull View v) {
-        super(v);
+    public HSVHSimpleText(@NonNull View itemView) {
+        super(itemView);
 
-        mTextSimple = v.findViewById(R.id.text_simple);
+        mTextSimple = itemView.findViewById(R.id.text_simple);
     }
 
     public void bind(String message){
