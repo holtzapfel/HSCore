@@ -5,9 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.studios.holtzapfel.hscorelibrary.HSMaster;
 import com.studios.holtzapfel.hscorelibrary.creaticon.Creaticon;
-import com.studios.holtzapfel.hscorelibrary.creaticon.CreaticonBuilder;
 import com.studios.holtzapfel.hscorelibrary.menumaker.MMActivity;
 import com.studios.holtzapfel.hscorelibrary.menumaker.MMMenu;
 import com.studios.holtzapfel.hscorelibrary.menumaker.MMMenuBuilder;
