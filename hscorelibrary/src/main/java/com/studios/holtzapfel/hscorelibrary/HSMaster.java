@@ -1,7 +1,10 @@
 package com.studios.holtzapfel.hscorelibrary;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.DisplayMetrics;
 
 /**
  * Created by holtzapfel on 6/26/17.
@@ -24,5 +27,15 @@ public class HSMaster {
 
     public static boolean verifyStringIsPhoneNumber(String phoneNumber){
         return phoneNumber.matches("^[+]?[0-9]{10,13}$");
+    }
+
+    public static float convertDpToPixel(float dp, Context context){
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        return dp * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+    }
+
+    public static float convertPixelsToDp(float px, Context context){
+        return px / ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 }

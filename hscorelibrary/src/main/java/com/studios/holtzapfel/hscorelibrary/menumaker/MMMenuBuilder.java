@@ -235,7 +235,7 @@ public class MMMenuBuilder {
         return this;
     }
 
-    // To ensure build() is only called once
+    // To ensure with() is only called once
     private boolean isUsed = false;
 
     /**
@@ -245,7 +245,7 @@ public class MMMenuBuilder {
      */
     public MMMenu build(){
         if (isUsed){
-            throw new RuntimeException("You can only build the menu once!");
+            throw new RuntimeException("You can only with the menu once!");
         }
 
         if (mContext == null) {

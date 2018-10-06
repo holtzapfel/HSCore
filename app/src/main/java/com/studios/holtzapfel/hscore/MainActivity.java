@@ -1,8 +1,13 @@
 package com.studios.holtzapfel.hscore;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.studios.holtzapfel.hscorelibrary.HSMaster;
+import com.studios.holtzapfel.hscorelibrary.creaticon.Creaticon;
+import com.studios.holtzapfel.hscorelibrary.creaticon.CreaticonBuilder;
 import com.studios.holtzapfel.hscorelibrary.menumaker.MMActivity;
 import com.studios.holtzapfel.hscorelibrary.menumaker.MMMenu;
 import com.studios.holtzapfel.hscorelibrary.menumaker.MMMenuBuilder;
@@ -52,11 +57,14 @@ public class MainActivity extends MMActivity implements MMMenu.OnMenuItemClickLi
     }
 
     private MMMenu buildMenu(){
+
+        Drawable drawable = Creaticon.build().circle().with("MM", Color.BLUE);
+
         MMPage pageMain = new MMPageBuilder(PAGE_MAIN)
                 .withPageTitle("HS Core Library")
                 .withMenuItems(
                         new HeaderMenuItem().withTitle("Features"),
-                        new BodyMenuItem(ID_FEATURE_MENU_MAKER).withTitle("Menu Maker").withDescription("The easiest way to make a menu.").withLastItem(true),
+                        new BodyMenuItem(ID_FEATURE_MENU_MAKER).withTitle("Menu Maker").withDescription("The easiest way to make a menu.").withIconLeft(drawable).withLastItem(true),
                         new FooterMenuItem()
                 )
                 .withHeaderTitleTextColor(R.color.colorAccent)
